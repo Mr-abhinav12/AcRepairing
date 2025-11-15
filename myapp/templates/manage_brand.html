@@ -1,0 +1,82 @@
+{% extends 'admin_index.html' %}
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Manage Brand</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="/manage_brand/"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#!">Manage Brand</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pcoded-inner-content">
+    <!-- Main-body start -->
+    <div class="main-body">
+        <div class="page-wrapper">
+            <!-- Page-body start -->
+            <div class="page-body">
+                <!-- Basic table card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Manage Brand</h5>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                <li><i class="fa fa-trash close-card"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-block table-border-style">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Brand Name</th>
+                                    <th>Brand Logo</th>
+                                    <th>Creation Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in data %}
+                                <tr>
+                                    <td>{{forloop.counter}}.</td>
+                                    <td>{{i.brandname}}</td>
+                                    <td><img src="{{i.brandlogo.url}}" width="100" height="100"></td>
+                                    <td>{{i.creationdate}}</td>
+                                    <td>
+                                        <a href="{% url 'edit_brand' i.id %}">
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'delete_brand' i.id %}" onclick="return confirm('Are you sure?')"><button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Basic table card end -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

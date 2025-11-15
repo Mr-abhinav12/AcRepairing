@@ -1,0 +1,114 @@
+{% extends 'user_index.html' %}
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Request Form</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="/request_form/"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#!">Request Form</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <!-- Basic Form Inputs card start -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Request Form</h5>
+            </div>
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">AC Type*</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" type="text" name="actype"  required>
+                            <option value="">Choose AC Type</option>
+                            <option>Split AC</option>
+                            <option>Window AC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand*</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="brandname" id="brand" style="width: 100%;" onchange="brandfield()">
+                            <option value="">Choose Brand</option>
+                            {% for i in mybrand %}
+                            <option value="{{i.id}}" {% if request.GET.brandname == i.id|lower %}selected{% endif %}>
+                            {{i.brandname}}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">AC Capacity*</label>
+                        <div class="col-sm-10">
+                             <select class="form-control" type="text" name="accapacity"  placeholder="AC Capacity" required>
+                            <option value="">Choose Capacity</option>
+                            <option>1 ton</option>
+                            <option>1.5 ton</option>
+                            <option>2 ton</option>
+                            <option>Other </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Nature of Problem*</label>
+                        <div class="col-sm-10">
+                             <select class="form-control" type="text" name="natureofproblem"   required>
+                            <option value="">Choose Nature of Problem</option>
+                            <option>Service</option>
+                            <option>Installation</option>
+                            <option>Faulty AC</option>
+                            <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Problem Description*</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="description"
+                                      placeholder="Problem Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Address*</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="address"
+                                      placeholder="Address"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Date of Service*</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="dateofservice">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Suitable Time*</label>
+                        <div class="col-sm-10">
+                            <input type="time" class="form-control" name="suitabletime">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+            <!-- Basic Form Inputs card end -->
+        </div>
+    </div>
+</div>
+{% endblock %}

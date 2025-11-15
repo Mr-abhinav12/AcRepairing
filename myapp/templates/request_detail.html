@@ -1,0 +1,333 @@
+{% extends 'technician_index.html' %}
+{% load static cutom_tags %}
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  #active {
+    border-radius: 50%;
+  }
+
+  #inactive {
+    border-radius: 50%;
+  }
+  #active:hover {
+    cursor: default !important;
+  }
+  #inactive:hover {
+    cursor: default !important;
+  }
+  img {
+    width: 60px;
+    height: 60px;
+  }
+  .table-responsive{
+    font-size:11px;
+  }
+  .material-symbols-outlined
+  {
+    font-size:14px;
+  }
+    td{
+    padding:0px;
+    }
+    .password{
+        display:none;
+    }
+    .green-row{
+      color:white;
+      background-color:green!important;
+    }
+    .red-row{
+      color:white;
+      background-color:red!important;
+    }
+    .head-row{
+      color:white;
+      background-color:#165d5d!important;
+    }
+</style>
+<div class="page-content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="page-content">
+        <h2 class="page-breadcrumb d-none d-sm-flex align-items-center mb-3"></h2>
+        <h4 style="color:red" align="center">Service Number: {{data.servicenumber}}</h4>
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <tr>
+                                    <h5 style="color:green">
+                                        User Details
+                                    </h5>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <td>{{data.register.user.first_name}}</td>
+                                    <th>Email</th>
+                                    <td>
+                                      <span id="mobile-{{forloop.counter}}" class="password">{{data.register.user.username}}</span>
+                                      <button type="button" class="btn btn-success" id="mobile-btn-{{forloop.counter}}" onclick="togglePassword('mobile-{{forloop.counter}}', this.id)"><i class="fa fa-eye text-white f-16"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mobile Number</th>
+                                    <td>
+                                      <span id="email-{{forloop.counter}}" class="password">{{data.register.mobile}}</span>
+                                      <button type="button" class="btn btn-success" id="email-btn-{{forloop.counter}}" onclick="togglePassword('email-{{forloop.counter}}', this.id)"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                    <th>Booking Date</th>
+                                    <td>{{data.creationdate}}</td>
+                                </tr>
+                            </table>
+                            <table id="example2" class="table table-bordered table-striped">
+                                <tr>
+                                    <h5 style="color:green">
+                                        Request Details
+                                    </h5>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <th>Type of AC</th>
+                                    <td>{{data.actype}}</td>
+                                    <th>Capacity of AC</th>
+                                    <td>{{data.accapacity}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nature of Problem</th>
+                                    <td>{{data.natureofproblem}}</td>
+                                    <th>Brief Description of Problem</th>
+                                    <td>{{data.description}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>{{data.address}}</td>
+                                    <th>Brand Name</th>
+                                    <td>{{data.brand.brandname}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date of Service</th>
+                                    <td>{{data.dateofservice}}</td>
+                                    <th>Time of Service</th>
+                                    <td>{{data.suitabletime}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Order Final Status</th>
+                                    <td>
+                                        {% if data.status == "Not Updated Yet" %}
+                                        Not Response Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.status1}}
+                                        {% endfor %}
+                                    </td>
+                                    <th>Request Date</th>
+                                    <td>{% if data.status == "Not Updated Yet" %}
+                                        Not Updated Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.creationdate}}
+                                        {% endfor %}
+                                    </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Assign To</th>
+                                    <td>{% if data.status == "Not Updated Yet" %}
+                                        Not Updated Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.technician.user.username}}
+                                    </td>
+                                    {% endfor %}
+                                    </td>
+                                    <th>Remark</th>
+                                    <td>
+                                        {% if data.status == "Not Updated Yet" %}
+                                        Not Updated Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.remark}}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            </table>
+                            {% if not data.status == "Approved" %}
+                            <table id="example3" class="table table-bordered table-striped">
+                                <tr>
+                                    <h5 style="color:green" align="center">
+                                        Invoice of Service
+                                    </h5>
+                                </tr>
+                                <br>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>Service Charge</td>
+                                    <td>
+                                        {% if data.status == "Not Updated Yet" %}
+                                        Not Updated Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.servicecharge}}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Part Charge</td>
+                                    <td>
+                                        {% if data.status == "Not Updated Yet" %}
+                                        Not Updated Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.partcharge}}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>Other Charge</td>
+                                    <td>
+                                        {% if data.status == "Not Updated Yet" %}
+                                        Not Updated Yet
+                                        {% endif %}
+                                        {% for i in traking %}
+                                        {{i.othercharge}}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Total Price</td>
+                                    {% for i in traking %}
+                                    <td>{% total i.servicecharge i.partcharge i.othercharge%}</td>
+                                    {% endfor %}
+                                </tr>
+                            </table>
+                            {% endif %}
+                        </div>
+                        </table>
+                        {% if data.status == "Approved" %}
+                        <center>
+                            <button type="button" class="btn btn-primary mt-5" data-toggle="modal"
+                                    data-target="#exampleModalCenter">
+                                Take Action
+                            </button>
+                        </center>
+                        {% endif %}
+                        {% if data.status != "New" %}
+                        <table id="example5" class="table table-bordered table-striped">
+                            <h5 style="color:green" align="center">
+                                Tracking History
+                            </h5>
+                            <br>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Remark</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>{% for i in traking %}
+                                {{i.remark}}
+                                    {% endfor %}</td>
+                                <td>{% for i in traking %}
+                                {{i.status1}}
+                                    {% endfor %}</td>
+                                <td>{% for i in traking %}
+                                {{i.creationdate}}
+                                    {% endfor %}</td>
+                            </tr>
+                            {% for i in traking %}
+                            <tr>
+                                <td>2</td>
+                                <td>{{i.remark1}}</td>
+                                <td>{{i.status}}</td>
+                                <td>{{i.creationdate}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Take Action</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <label>Remark:</label>
+                                        <textarea class="form-control" rows="4" name="remark1"
+                                                  placeholder="Remark"></textarea>
+
+                                        <label>Service Charge:</label>
+                                        <input class="form-control" name="servicecharge"
+                                               placeholder="Service Charge">
+
+                                        <label>Part Charge:</label>
+                                        <input class="form-control" name="partcharge" placeholder="Part Charge">
+
+                                        <label>Other Charge:</label>
+                                        <input class="form-control" name="othercharge" placeholder="Other Charge">
+
+                                        <label>Choose Status</label>
+                                        <select class="form-control" name="status">
+                                            <option value="Completed">Completed</option>
+                                        </select>
+
+                                        <div class="modal-footer">
+                                            <button type="Close" class="btn btn-secondary" data-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    function togglePassword(element_id, btnId){
+      var elementData = document.getElementById(element_id);
+      var elementBtn = document.getElementById(btnId);
+      console.log(elementData.classList.contains("password"))
+      if(elementData.classList.contains("password")){
+        elementData.classList.remove("password");
+        elementData.classList.add("text");
+        elementBtn.children[0].classList.add("fa-eye-slash");
+        elementBtn.children[0].classList.remove("fa-eye");
+      }
+      else{
+        elementData.classList.remove("text");
+        elementData.classList.add("password");
+        elementBtn.children[0].classList.remove("fa-eye-slash");
+        elementBtn.children[0].classList.add("fa-eye");
+      }
+    }
+  </script>
+
+{% endblock %}

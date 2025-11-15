@@ -1,0 +1,98 @@
+{% extends 'admin_index.html' %}
+{% block body %}
+
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Search Service Request</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="/admin_search_request/"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#!">Search Service Request</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <!-- Basic Form Inputs card start -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Search by Service Number.</h5>
+            </div>
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" name="fromdate" placeholder="Search by Service Number" value="{{fromdate}}">
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <!-- Basic Form Inputs card end -->
+
+                {% if data %}
+                <div class="container">
+                    <h4> All Request Related to search for '{{fromdate}}'</h4>
+                <div class="card-block table-border-style">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Service Number</th>
+                                    <th>Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Email</th>
+                                    <th>Date of Service</th>
+                                    <th>Time of Service</th>
+                                    <th>Status</th>
+                                    <th>Request Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in data %}
+                                <tr>
+                                    <td>{{forloop.counter}}.</td>
+                                    <td>{{i.servicenumber}}</td>
+                                    <td>{{i.register.user.first_name}}</td>
+                                    <td>{{i.register.mobile}}</td>
+                                    <td>{{i.register.user.username}}</td>
+                                    <td>{{i.dateofservice}}</td>
+                                    <td>{{i.suitabletime}}</td>
+                                    <td>{{i.status}}</td>
+                                    <td>{{i.creationdate}}</td>
+                                    <td>
+                                        <a href="{% url 'request_detail' i.id %}">
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i>
+                                            </button>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% elif data2 %}
+
+                    <h4 align="center">Data not found</h4>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

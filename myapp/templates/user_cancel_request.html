@@ -1,0 +1,43 @@
+{% extends 'user_index.html' %}
+{% block body %}
+<div class="page-content">
+    <h2 class="page-breadcrumb d-none d-sm-flex align-items-center mb-3"></h2>
+    <h4 style="color:blue" align="center">Cancel Order #{{data.servicenumber}}</h4>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <!-- Basic Form Inputs card start -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Cancel Order Details</h5>
+            </div>
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table id="example" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Service Number</th>
+                            <th>Current Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{data.servicenumber}}</td>
+                            <td>{{data.status}}</td>
+                        </tr>
+                    </table>
+                    <label>Reason for Cancel:</label>
+                        <textarea class="form-control" rows="4" name="reasonforcancel"
+                                  placeholder="Reason for Cancel"></textarea>
+                    <br>
+                    <div align="center">
+                     <button type="submit" class="btn btn-danger">Update Request</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Basic Form Inputs card end -->
+        </div>
+    </div>
+</div>
+{% endblock %}
