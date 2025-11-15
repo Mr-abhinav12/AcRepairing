@@ -1,6 +1,6 @@
 from django.core.wsgi import get_wsgi_application
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ACRepairingManagementSystem.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ACRepairingSystem.settings")
 
 app = get_wsgi_application()
